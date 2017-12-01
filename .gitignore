@@ -1,0 +1,4 @@
+/node_modules/
+/lib/sqlite/
+/lib/sqlite.c
+/lib/sqlite.tar.gz
