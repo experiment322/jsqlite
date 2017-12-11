@@ -5,13 +5,10 @@
   "main": "index.js",
   "author": "Alexandru-Damian Manea <maneaalexdamian@gmail.com> https://github.com/experiment322",
   "license": "MIT",
-  "repository": "experiment322/jsqlite",  
+  "repository": "experiment322/jsqlite",
   "devDependencies": {
-    "eslint": "^4.12.1",
+    "eslint": "^4.13.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0"
-  },
-  "dependencies": {
-    "uuid": "^3.1.0"
   }
 }

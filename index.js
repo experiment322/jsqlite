@@ -1,5 +1,4 @@
 /* eslint no-underscore-dangle: 0 */
-const UUID = require('uuid/v4');
 const JSCRT = require('./lib/sqlite');
 
 /* Runtime system modules */
@@ -28,9 +27,9 @@ const sqliteExec = JSCRT.cwrap('sqlite3_exec', 'number', ['number', 'string', 'n
 const sqliteClose = JSCRT.cwrap('sqlite3_close', 'number', ['number']);
 
 class DataBase {
-  constructor() {
-    this.db = null;
-    this.file = UUID();
+  constructor(file) {
+    this.file = String(file);
+    this.dbPtr = null;
   }
 
   open() {
@@ -38,7 +37,7 @@ class DataBase {
       const dbPtr = JSCRT._malloc(PTR_SIZE);
       const retValue = sqliteOpen(this.file, dbPtr);
       if (retValue === SQLITE_OK) {
-        this.db = JSCRT.getValue(dbPtr, '*');
+        this.dbPtr = JSCRT.getValue(dbPtr, '*');
         resolve();
       } else {
         reject(retValue);
@@ -48,7 +47,7 @@ class DataBase {
 
   exec(statement) {
     return new Promise((resolve, reject) => {
-      const retValue = sqliteExec(this.db, String(statement), execCallback);
+      const retValue = sqliteExec(this.dbPtr, String(statement), execCallback);
       if (retValue === SQLITE_OK) {
         resolve(fetchOutput());
       } else {
@@ -59,7 +58,7 @@ class DataBase {
 
   close() {
     return new Promise((resolve, reject) => {
-      const retValue = sqliteClose(this.db);
+      const retValue = sqliteClose(this.dbPtr);
       if (retValue === SQLITE_OK) {
         this.db = null;
         resolve();
@@ -72,7 +71,8 @@ class DataBase {
   dump() {
     return new Promise((resolve, reject) => {
       try {
-        resolve(FS.readFile(this.file, { encoding: 'binary' }));
+        const data = FS.readFile(this.file, { encoding: 'binary' });
+        resolve(data);
       } catch ({ errno }) {
         reject(errno);
       }

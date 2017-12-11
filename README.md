@@ -3,16 +3,16 @@ JavaScript wrapper for SQLite compiled to JavaScript with Emscripten SDK.
 
 
 ## Compilation instructions
-**Prerequisites**: [Emscripten SDK][emsdk], `tar` and `wget`(only if updating) available on PATH
+**Prerequisites**: [Emscripten SDK][emsdk], `tar` and `wget`(only if updating) available on `PATH`.
 
-If you want to use a modified copy of SQLite or to simply update the library `cd` into `./lib/`.
+If you want to use a modified copy of SQLite or to simply update the library `cd` into `./lib/`. Then:
 * To compile a modified copy of SQLite place an archive named `sqlite.tar.gz` in `./lib/` containing the modified source code.
 * In `./lib/` execute the following commands `make && make clean` to rebuild the `sqlite.js` and if there is no `sqlite.tar.gz` in `./lib/`, one containing the latest version will be pulled from [here][sqlite].
 
 
 ## API Reference
-* ```class DataBase```
-    * main class offering SQLite database abstraction and manipulation methods.
+* ```class DataBase { constructor(file) {...} }```
+    * main class offering SQLite database abstraction and manipulation methods. `file` should be a string representing the db's file name in the virtual filesystem.
     * *Note: Instances of this class are denoted as `db` from now on.*
 
 * ```db.open().then(() => {}).catch((err) => {})```
