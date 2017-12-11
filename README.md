@@ -2,24 +2,52 @@
 JavaScript wrapper for SQLite compiled to JavaScript with Emscripten SDK.
 
 
-## Compilation instructions
+## Installation
+```npm i --save jsqlite```
+
+
+## Usage
+```javascript
+/* import { DataBase } from 'jsqlite'; */
+const { DataBase } = require('jsqlite');
+
+/* create a new database */
+const db = new DataBase();
+
+/* we can chain the promises like this because they aren't async */
+/* thus they will be executed sequentially */
+Promise.all([
+  db.open(),
+  db.exec('create table persons (id integer)'),
+  db.exec('insert into persons values (1)'),
+  db.exec('select * from persons'),
+  db.close(),
+]).then((values) => {
+  console.log('Select output', values[3]);
+}).catch((error) => {
+  console.log('Something failed with code', error);
+});
+```
+
+
+## (Re)Compilation
 **Prerequisites**: [Emscripten SDK][emsdk], `tar` and `wget`(only if updating) available on `PATH`.
 
 If you want to use a modified copy of SQLite or to simply update the library `cd` into `./lib/`. Then:
 * To compile a modified copy of SQLite place an archive named `sqlite.tar.gz` in `./lib/` containing the modified source code.
-* In `./lib/` execute the following commands `make && make clean` to rebuild the `sqlite.js` and if there is no `sqlite.tar.gz` in `./lib/`, one containing the latest version will be pulled from [here][sqlite].
+* In `./lib/` execute the following commands `make && make clean` to rebuild the `sqlite.js` and if there is no `sqlite.tar.gz` in `./lib/` one containing the latest version will be pulled from [here][sqlite].
 
 
 ## API Reference
-* ```class DataBase { constructor(file) {...} }```
-    * main class offering SQLite database abstraction and manipulation methods. `file` should be a string representing the db's file name in the virtual filesystem.
+* ```class DataBase { constructor(file = '') {...} }```
+    * Main class offering SQLite database abstraction and manipulation methods. `file` should be a string representing the database's file name in the virtual filesystem. If it is missing then it is initialized with an empty string and the database cannot be dumped/restored, its contents being lost when closed.
     * *Note: Instances of this class are denoted as `db` from now on.*
 
 * ```db.open().then(() => {}).catch((err) => {})```
     * Open the connection to the database. Returns a promise and if it fails, an SQLite error code is passed to `catch`.
     * *Note: The database is created in memory and managed internally. To save it to a file use `db.dump()`.*
 
-* ```db.exec(statement).then((output) => {}).catch((err) => {})```
+* ```db.exec(statement = '').then((output) => {}).catch((err) => {})```
     * Execute the SQL `statement` string and pass the `output` as an array of objects to `then`. If there is an error, `catch` is called with the SQLite error code.
     * *Note: To execute a `statement` the database should be opened first.*
 

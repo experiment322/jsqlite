@@ -27,7 +27,7 @@ const sqliteExec = JSCRT.cwrap('sqlite3_exec', 'number', ['number', 'string', 'n
 const sqliteClose = JSCRT.cwrap('sqlite3_close', 'number', ['number']);
 
 class DataBase {
-  constructor(file) {
+  constructor(file = '') {
     this.file = String(file);
     this.dbPtr = null;
   }
@@ -45,7 +45,7 @@ class DataBase {
     });
   }
 
-  exec(statement) {
+  exec(statement = '') {
     return new Promise((resolve, reject) => {
       const retValue = sqliteExec(this.dbPtr, String(statement), execCallback);
       if (retValue === SQLITE_OK) {
@@ -60,7 +60,7 @@ class DataBase {
     return new Promise((resolve, reject) => {
       const retValue = sqliteClose(this.dbPtr);
       if (retValue === SQLITE_OK) {
-        this.db = null;
+        this.dbPtr = null;
         resolve();
       } else {
         reject(retValue);
