@@ -1,14 +1,14 @@
 # BINARIES
-EMCC=emcc
+EMCC = emcc
 
 # FLAGS
-CFLAGS=-DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION -O3 --memory-init-file 0
-RUNTIME_METHODS=-s "EXTRA_EXPORTED_RUNTIME_METHODS=['FS']"
-RESERVED_POINTERS=-s "RESERVED_FUNCTION_POINTERS=1"
-EXPORTED_FUNCTIONS=-s "EXPORTED_FUNCTIONS=['_sqlite3_open', '_sqlite3_exec', '_sqlite3_close']"
+CFLAGS = -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION -O3 --memory-init-file 0
+RUNTIME_METHODS = -s "EXTRA_EXPORTED_RUNTIME_METHODS=['addFunction', 'cwrap', 'FS', 'getValue', 'UTF8ToString']"
+RESERVED_POINTERS = -s "RESERVED_FUNCTION_POINTERS=1"
+EXPORTED_FUNCTIONS = -s "EXPORTED_FUNCTIONS=['_sqlite3_open', '_sqlite3_exec', '_sqlite3_close']"
 
 # SOURCES
-SQLITE_URL=https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release
+SQLITE_URL = https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release
 
 # TARGETS
 sqlite.js: sqlite.c
