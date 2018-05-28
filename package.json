@@ -1,6 +1,6 @@
 {
   "name": "jsqlite",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "JavaScript wrapper for SQLite compiled to JavaScript with Emscripten SDK.",
   "main": "dst/index.js",
   "author": "Alexandru-Damian Manea <maneaalexdamian@gmail.com> https://github.com/experiment322",
@@ -8,13 +8,13 @@
   "repository": "experiment322/jsqlite",
   "scripts": {
     "build": "./node_modules/.bin/babel src -d dst",
-    "prepublish": "./node_modules/.bin/babel src -d dst"
+    "prepublishOnly": "./node_modules/.bin/babel src -d dst"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.19.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.9.0"
+    "eslint-plugin-import": "^2.12.0"
   }
 }

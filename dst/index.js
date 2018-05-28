@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Filesystem = exports.Database = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* eslint no-underscore-dangle: 0 */
 
@@ -42,7 +43,7 @@ var SQLite = {
 
 /* main class offering sqlite database abstraction */
 
-var Database = function () {
+var Database = exports.Database = function () {
   function Database() {
     var fileName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
@@ -116,4 +117,7 @@ var Database = function () {
   return Database;
 }();
 
-exports.default = Database;
+/* module offering virtual filesystem access */
+
+
+var Filesystem = exports.Filesystem = _sqlite2.default.FS;

@@ -26,7 +26,7 @@ const SQLite = {
 };
 
 /* main class offering sqlite database abstraction */
-export default class Database {
+export class Database {
   constructor(fileName = '') {
     this.fileName = String(fileName);
     this.dbPointer = null;
@@ -70,3 +70,6 @@ export default class Database {
     }
   }
 }
+
+/* module offering virtual filesystem access */
+export const Filesystem = JSCRT.FS;

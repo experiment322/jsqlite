@@ -8,11 +8,11 @@ JavaScript wrapper for SQLite compiled to JavaScript with Emscripten SDK.
 
 ## Usage
 ```javascript
-/* import Database from 'jsqlite'; */
-const Database = require('jsqlite').default;
+/* import { Database, Filesystem } from 'jsqlite'; */
+const { Database, Filesystem } = require('jsqlite');
 
 /* create a new database */
-const db = new Database('demo');
+const db = new Database('example.db');
 
 /* open, execute statements and close */
 if (db.open().ok) {
@@ -21,8 +21,12 @@ if (db.open().ok) {
   console.log(db.exec('INSERT INTO ?? VALUES (null, ?);', tableName, 'John'));
   console.log(db.exec('INSERT INTO ?? VALUES (null, ?);', tableName, 'Jane'));
   console.log(db.exec('SELECT * FROM ??;', tableName));
+  console.log(db.exec('SELECT SQLITE_VERSION();'));
   db.close();
 }
+
+/* delete the database file to avoid useless memory usage */
+Filesystem.unlink('example.db');
 ```
 
 
@@ -35,7 +39,10 @@ If you want to use a modified copy of SQLite or to simply update the library `cd
 
 
 ## API Reference
-* ```class DataBase { constructor(fileName = '') }```
+* ```Filesystem```
+    * Check [here][em-fs] for Emscripten filesystem API.
+
+* ```Database { constructor(fileName = '') }```
     * Main class offering SQLite database abstraction and manipulation methods. `fileName` should be a string representing the database's file name in the virtual filesystem. If it is missing then it is initialized with an empty string and the database becomes temprary(it cannot be dumped, its contents being lost when closed). Check [here][sqlite-inmemdb] for other special strings for temporary databases.
     * *Note: Instances of this class are denoted as `db` from now on.*
 
@@ -66,6 +73,7 @@ If you want to use a modified copy of SQLite or to simply update the library `cd
 
 
 [emsdk]: http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html
+[em-fs]: https://kripken.github.io/emscripten-site/docs/api_reference/Filesystem-API.html
 [sqlite]: https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release
 [sqlite-inmemdb]: https://www.sqlite.org/inmemorydb.html
 [linux-err-codes]: https://github.com/torvalds/linux/blob/master/include/uapi/asm-generic/errno.h
